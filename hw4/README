@@ -1,0 +1,29 @@
+CS289 Homework 4
+Jiaying SHI
+SID: 24978491
+shijy07@berkeley.edu
+====================================================================================================================================
+Files:
+Problem1.m---------------------Code for Problem 1
+newtonMethod.m-----------------Function for 1 iteration of Newton's method
+
+Problem2.m---------------------Code for Problem 2, implemented linear regression
+                               * To run this program, the data should be imported as YearPredictionMSD.mat, and the .mat file 
+                               should be in the same directory of the code.
+
+Problem3N.m--------------------Code for Problem 3.1, normalize the data using i), use batch gradient descent method
+Problem3Nstoch.m---------------Code for Problem 3.2, normalize the data using i), use stochastic gradient descent method
+Problem3NstochStep.m-----------Code for Problem 3.3, normalize the data using i), use stochastic gradient descent method, 
+                               step size is updated in each iteration.
+Problem3L.m--------------------Code for Problem 3.1, process the data using ii), use batch gradient descent method
+Problem3Lstoch.m---------------Code for Problem 3.2, process the data using ii), use stochastic gradient descent method
+Problem3LstochStep.m-----------Code for Problem 3.3, process the data using ii), use stochastic gradient descent method, 
+                               step size is updated in each iteration.
+Problem3I.m--------------------Code for Problem 3.1, process the data using iii), use batch gradient descent method
+Problem3Istoch.m---------------Code for Problem 3.2, process the data using iii), use stochastic gradient descent method
+Problem3IstochStep.m-----------Code for Problem 3.3, process the data using iii), use stochastic gradient descent method, 
+                               step size is updated in each iteration.
+gradientDescentIter.m----------Function for 1 iteration of batch gradient desent method.
+stochGradDescentIter.m---------Function for 1 iteration of stochastic gradient desent method.
+stochGradDescentIterStep.m-----Function for 1 iteration of stochastic gradient desent method whenthe 
+                               step size is updated in each iteration.

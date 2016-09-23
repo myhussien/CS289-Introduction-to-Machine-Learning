@@ -1,0 +1,25 @@
+*******************************************************************************************************
+CS289 Homework1
+Jiaying Shi
+shijy07@berkeley.edu
+*******************************************************************************************************
+File structure:
+-Code_HW1
+    -data
+        -digit-dataset
+            test.mat
+            train.mat
+        -spam-dataset
+            -ham
+            -spam
+            -test
+            featurize.py
+            spam_data.mat
+    digitTrain.m (Problem 1 and Problem 2)
+    crossValidationDigit.m(Problem3)
+    crossValidationDigit_BW.m(Problem 3 preprocess data by gray-scale filtering)
+    crossValidationDigitHOG.m(Problem 3 using HOG features on processed data)
+    crossValidationDigitHOG_v2.m(Problem 3 using 4*4 HOG features on data filtered by [-1 0 1])
+    hog_feature_vector(generate HOG features for corssValidationHOG.m)
+    HOG.m(generate HOG features for crossValidationDigitHOG_v2.m)
+    crossValiationSpam.m(Problem4)

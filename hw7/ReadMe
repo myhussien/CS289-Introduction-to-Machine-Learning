@@ -1,0 +1,17 @@
+Name: Jiaying Shi
+SID: 24978491
+==================================================================================
+To run the code, please put the data \joke_data and \mnist_data in this folder.
+==================================================================================
+kmeans.m is the code for Problem 1.
+
+warmup.m is the code for Problem 2.2 (simple system and KNN)
+
+latent.m is the code for implementing PCA and evaluating the learnt vector representation by MSE
+
+latent_2_3.m is the code for implementing 2.3 part 3 using the given loss function. The alternating
+minimizing algorithm is implemented. The hyper parameter is tuned.
+
+kaggletest.m is the code for 2.4. The kaggle test result is obtained from this file.
+
+MSECost.m is the function for calculating MSE.

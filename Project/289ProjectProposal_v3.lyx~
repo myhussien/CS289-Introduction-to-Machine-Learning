@@ -1,0 +1,199 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+CS 289A Project Proposal
+\end_layout
+
+\begin_layout Author
+Jiaying Shi, Mo Zhou
+\end_layout
+
+\begin_layout Author
+SID: 24978491, 21242515
+\end_layout
+
+\begin_layout Part*
+Topic
+\end_layout
+
+\begin_layout Standard
+Decode human brain activity from brain imaging data (fMRI)
+\end_layout
+
+\begin_layout Section*
+Data Description
+\end_layout
+
+\begin_layout Standard
+The data set is obtained from StarPlus fMRI data website
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+fMRI data website: http://www.cs.cmu.edu/afs/cs.cmu.edu/project/theo-81/www/
+\end_layout
+
+\end_inset
+
+.
+ The data set contains .mat files of seven human subjects.
+ For the data of each subject, three variables are defined: info, data and
+ meta.
+ The variable 'info', which is a struct array, defines the experiment in
+ terms of a sequence of a certain number of time intervals.
+ It contains the information of each 'trial' such as the sentence presented
+ to the subject, whether the picture is presented before or after the sentence
+ and the action of the subject.
+ During most of the time intervals, the human subject views a single picture
+ and a single sentence and presses a button to indicate if the picture is
+ correctly described by the sentence.
+ The picture has two tokens where one is above the other.
+ The possible tokens are star(s), plus(p) and dollar(d).
+ The variable 'data' contains the raw observed data.
+ The raw data is a sequence of images of the subject's brain collected over
+ time.
+ It is a cell array, with one cell per 'trial'.
+ The variable 'meta' presents the information about the data set including
+ the number of trials, the number of voxels, the total number of images
+ and so on.
+ A sample image is shown as below:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename unnamed.jpg
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Project goal
+\end_layout
+
+\begin_layout Standard
+We are interested in answering the following questions concerning brain
+ reaction to images:
+\end_layout
+
+\begin_layout Standard
+1.
+ Does brain activity vary when the human subject is looking at a picture
+ or a sentence? Would it be possible to train a classifier?
+\end_layout
+
+\begin_layout Standard
+2.
+ Does brain activity vary when the human subject is making decision? i.e.
+ do we observe different activity when the human subject gives different
+ answers to how well the sentence describes the image?
+\end_layout
+
+\begin_layout Standard
+3.
+ Does brain activity vary when the picture is showing food, buildings, animals,
+ etc?
+\end_layout
+
+\begin_layout Standard
+We aim to answer the above questions by developing classifiers and test
+ on new data.
+ 
+\end_layout
+
+\begin_layout Standard
+Consider the dimension of the problem, we would first use filters to reduce
+ noise.
+ Then we would apply dimensionality reduction methods to select the best
+ features.
+ After that, we would apply several classification techniques and use CV
+ to compare their performance.
+ 
+\end_layout
+
+\begin_layout Standard
+Possible methods we are considering:
+\end_layout
+
+\begin_layout Standard
+PCA, SVM, Bayesian classifier, kNN, Lasso, Ridge
+\end_layout
+
+\end_body
+\end_document

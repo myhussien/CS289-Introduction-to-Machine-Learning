@@ -1,0 +1,14 @@
+Name: Jiaying Shi
+Email: shijy07@berkeley.edu	
+SID: 24978491
+
+MSE_Error.m 			function to calculate MSE error
+NeuralNetwork.m 		code for traning and validating NeuralNetwork with MSE error
+OBJ_Error.m 			function to calculate error
+predictNN.m 			function to predict labels with test data
+trainNN.m 				function of training 
+trainNNCE.m  			function of training with Cross-Entropy error
+** trainNN.m can be used to train nerual network with cross-entropy error trainNNCE is used to tuning parameters for CE
+NeuralNetworkCE.m 		code for traning and validating NeuralNetwork with Cross-entropy error
+
+To run the codes, please put all the data in the same folder and then run NuralNetwork.m and NeuraNetworkCE.m

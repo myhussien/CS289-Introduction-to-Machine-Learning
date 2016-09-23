@@ -1,0 +1,40 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Name: Jiaying Shi
+Student ID: 24978491
+Email:shijy07@berkeley.edu
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+When runing the codes, please put the .mat data in the same directory of the codes.
+If you have any questions in running the codes, please email shijy07@berkeley.edu
+------------------------------------------------------------------------------------------------------------------------------
+Problem1.m--------------Code for Prolem 1
+Problem3.m--------------Code for Problem 3
+Problem4_a_to_c.m-------Code for Problem 4 Part a to Part c
+Problem4_di.m-----------Code for Problem 4 Part d i)
+Pr4oblem4_dii.m---------Code for Problem 4 Part d ii)
+Problem4_e.m------------Code for Problem 4 Part e
+feature.py--------------Python code to generate features for spam filter
+trainDigit.m------------Code for training of Gaussian classifier of digit partitioning
+                        [mu,sigma]=train(train_data, train_label,type)
+                        * type is used to specify i) or ii)
+testDigit.m-------------Code for test of Gaussian classifier of digit partitioning
+                        [error,prediction] = testDigit(testData,testLabel,mu,inv_sigma,dtSigma,Prior,type);
+                        * inv_sigma is used to store the inverse of covariance matrices
+                        * dtSigma is used to store the determinants of covariance matrices
+                        * Prior is the prior distribution
+                        * type is used to specify i) or ii)
+trainSpam.m-------------Code for training of Gaussian classifier of digit partitioning
+                        [mu,sigma]=train(train_data, train_label,type)
+                        * type is used to specify i) or ii)
+testSpam.m--------------Code for test of Gaussian classifier of digit partitioning
+                        [error,prediction] = testDigit(testData,testLabel,mu,inv_sigma,dtSigma,Prior,type);
+                        * inv_sigma is used to store the inverse of covariance matrices
+                        * dtSigma is used to store the determinants of covariance matrices
+                        * Prior is the prior distribution
+                        * type is used to specify i) or ii)
+logMultiNormal.m--------Code for calculate the log likelyhood
+                        P = logMultiNormal(x,mu,inv_sigma,dtSigma,type )
+                        * P is a 10*1 vector that stores the probability of a points in each of the classes
+                        * inv_sigma is used to store the inverse of covariance matrices
+                        * dtSigma is used to store the determinants of covariance matrices
+                        * type is used to specify i) or ii)    
+ni.mat------------------Prior distribution if digits.                    

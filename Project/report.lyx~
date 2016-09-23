@@ -1,0 +1,1215 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Cognitive States Classification from Brain Data
+\end_layout
+
+\begin_layout Author
+Jiaying Shi (24978491) Mo Zhou (21242515)
+\end_layout
+
+\begin_layout Part*
+Introduction
+\end_layout
+
+\begin_layout Standard
+Recent years, with the development of new technologies, such as functional
+ Magnetic Resonance Imaging (fMRI) and Magnetoencephalography (MEG), researchers
+ are able to visualize and analyze multiple brain images within a fixed
+ time period.
+ These technologies offer new approaches to studying human cognitive processes
+ and suggest new analysis methods to make use of this huge volume data.
+ 
+\end_layout
+
+\begin_layout Standard
+In this project, we use the StarPlus fMRI data collected by Marcel Just
+ and his colleagues in Carnegie Mellon University's CCBI.
+ By implementing dimension reduction techniques and Machine Learning classificat
+ion methods, such as Random Forest,
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Neural Network
+\end_layout
+
+\end_inset
+
+ we wish to answer the following two questions:
+\end_layout
+
+\begin_layout Standard
+1.
+ Can we decode human cognitive states by brain image data? 
+\end_layout
+
+\begin_layout Standard
+2.
+ Can we clasify if a human is viewing the first stimulate or the second
+ stimulate using brain image data?
+\end_layout
+
+\begin_layout Standard
+Mitchell et al.
+ used SVM and Naive Bayesian to classifier human cognitive states.
+ However, our approach is significantly different from their not only because
+ of the different method implemented, but also because of the different
+ labeling and testing hypothesis.
+ 
+\end_layout
+
+\begin_layout Standard
+We observe significantly smaller prediction error than random guess error
+ on both questions to suggests that we can use brain image data to distinguish
+ cognitive states and learning behaviors of human beings.
+ 
+\end_layout
+
+\begin_layout Standard
+The report is organized as follows: we first introduce the dataset, then
+ discuss our feature selection processes, the classification techniques
+ applied to answer the two questions and the comparison of results from
+ different methods.
+\end_layout
+
+\begin_layout Part*
+Data Description
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/A90C9A53-B921-4C42-97B4-EAED4C121B69.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The entire dataset contains fMRI images for six subjects participating in
+ the same experiment.
+ Images were collected every 500msec and only a fraction of the brain was
+ imaged for each subject.
+ The experiment consists of 50 trials and the data is partitioned into trials.
+ For each trial, the first stimulus (a sentence or a picture) was presented
+ at the beginning of the trail for four seconds.
+ Then it was removed and a blank screen appeared for four seconds.
+ After that, the second stimulus was presented for another four seconds
+ until the subject pressed the mouse button to determine if the sentence
+ was a correct description of the picture, following by a rest period of
+ 15 seconds.
+ In the 50 trials, the starting 25 trials presented a picture first followed
+ by a sentence, whereas in the last 25 trials, a sentence is provided first
+ then a picture.
+ The answers provided by the subjects as well as the reaction time are both
+ recorded.
+ 
+\end_layout
+
+\begin_layout Standard
+The cognitive states are naturally determined by the task of the subject
+ at the time with possble values 0, 1, 2, 3.
+ Condition 0 indicates the data in this segment should be ignored.
+ Condition 1 indicates the segment is a rest, or fixation interval.
+ Condition 2 indicates the interval is a sentence/picture trial in which
+ the sentence is not negated.
+ Condition 3 indicates the interval is a sentence/picture trial in which
+ the sentence is negated.
+\end_layout
+
+\begin_layout Standard
+For each fMRI image data, about 5000 voxels are observed and classified
+ into 25-30 anatomically defined regions called 
+\begin_inset Quotes eld
+\end_inset
+
+Regions of Interest
+\begin_inset Quotes erd
+\end_inset
+
+ (RoI).
+ Some RoIs have been confirmed to be associated with particular brain functional
+ities.
+\end_layout
+
+\begin_layout Part*
+Exploratory Data Analysis
+\end_layout
+
+\begin_layout Standard
+Figure 1
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/snap5trial10_1.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/snap5trial10_2.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/snap5trial10_3.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/snap5trial10_4.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/snap5trial10_5.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/snap5trial10_6.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/snap5trial10_7.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/snap5trial10_8.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Brain images are essentially image slices of the three dimensional human
+ brain.
+ Figure # is a typical fMRI data.
+ In this fMRI data set, eight slices are scanned and recorded to visualize
+ the overall brain activity.
+ Figure # is an example of the brain images from the eight slices at the
+ same time.
+ We can observe that the slices have similar shapes with slight difference
+ due to brain formulation.
+ Each point in the image represents a voxel and the voxel observation is
+ extracted for further analysis.
+ 
+\end_layout
+
+\begin_layout Standard
+Figure # shows the brain images for another subject.
+ Notice that the brain images for this subject is not exactly the same as
+ the brain images for the previous subject.
+ Human brains are not identical in general so that matching voxels from
+ various subjects is challenging.
+ Therefore, to predict classification for a new subject given training data
+ based on other subjects is unrealistic at the voxel level, suggesting further
+ feature selection methods to facilitate comparison.
+\end_layout
+
+\begin_layout Part*
+Feature Selection
+\end_layout
+
+\begin_layout Standard
+A typical subject's data contain observations of about 5,000 features, each
+ feature corresponds to a raw voxel.
+ For each subject, however, only 50 trials are performed, generating a total
+ of roughly 2500 images.
+ Thus to classify the cognitive states, we face a high-dimensional problem
+ where feature selection or dimension reduction techniques are needed to
+ improve classifier performance.
+ In this project, we experiment with the following selected features and
+ the results are summarized in the results section:
+\end_layout
+
+\begin_layout Standard
+1.
+ Active voxels: we select the most active voxels from the raw voxels because
+ we believe the active voxels are indicators of the related parts of the
+ brain associated with the particular tasks performed.
+\end_layout
+
+\begin_layout Standard
+2.
+ Selected RoI active voxel mean: after selecting the active voxels in RoI,
+ we compute their average and thus reduce the feature number to the number
+ of selected RoIs.
+\end_layout
+
+\begin_layout Standard
+3.
+ Selected RoI raw voxel mean: for all voxels in the selected RoI, we compute
+ the average of each RoI and thus reduce the feature number to the number
+ of selected RoIs.
+\end_layout
+
+\begin_layout Standard
+A major complication of this dataset is that we are not able to map voxels
+ in a one-to-one correspondence across subjects.
+ Thus if we wish to train the classifier based on several subjects and test
+ on someone else, we can only select features within the framework of RoI,
+ for instance, method number 2 and 3.
+\end_layout
+
+\begin_layout Part*
+Cognitive State Classification
+\end_layout
+
+\begin_layout Standard
+Cognitive states are classified for each trial to three possible states
+ 1, 2, 3, described in the data section.
+ Each trial consists of roughly 55 brain images and each subject did 50
+ trials in the entire study.
+ Thus if we want to train classifiers for each individual, the data size
+ is limited to 50 and it might lead to huge variance and unrealiable results.
+ In consideration of the data size, we think it is more appropriate to train
+ a general classifier across multiple subjects and predict the cognitive
+ states of a new subject.
+\end_layout
+
+\begin_layout Section*
+Dimension Reduction
+\end_layout
+
+\begin_layout Standard
+For this classification, we only choose feature selection method 2 and 3
+ because these two methods can provide comparable feature sets between subjects.
+ Now, for each trial, we have 55 images of 24 features (the number of RoIs).
+ By experimenting different combinations of the 55 images, we conclude that
+ concatenating all 55 images together into one observation provides the
+ best performance.
+ However, it results in 1320 features, which is much greater than the total
+ number of observations we have.
+ Furthermore, the features we use could be correlated to the response and
+ to each other.
+ If too many predictor variables are correlated to each other, then the
+ variability would render the classifications unstable.
+ Dimension reduction techniques are then applicable to deal with the curse
+ of dimensionality and avoid overfitting.
+ We investigate the following dimension reduction technique after scaling
+ the features and compare their performance in the results section.
+\end_layout
+
+\begin_layout Subsection*
+Principal Component Analysis (PCA)
+\end_layout
+
+\begin_layout Standard
+PCA seeks to find a linear combination of predictors to capture the most
+ variance of the independent variables.
+ This transformation is defined that the first principal component has the
+ largest possible variance and each succeeding component in turn has the
+ highest variance possible under the constraint that it is orthogonal to
+ the preceding components.
+\end_layout
+
+\begin_layout Standard
+As Figure # shown, the variance explained sums up to 80% when we include
+ 89 principal components and it reaches 90% with 130 principal components.
+ Thus we choose 89 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+94 in the data
+\end_layout
+
+\end_inset
+
+principal components as the selected features and performed the transformation
+ on the test set as well for further classification model fitting.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/PCA.png
+	scale 25
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/plsr.png
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Partial Least Squares Regreesion (PLSR)
+\end_layout
+
+\begin_layout Standard
+\noindent
+Instead of finding the principal components of the independent variables,
+ PLSR finds a linear regression model by projecting the independent variables
+ and the dependent variables to a new space.
+ It tries to find the multidimensional direction in the independent variables
+ space that explains the maximum multidimensional variance direction in
+ the dependent variable space.
+ For better prediction performance, we think PLSR might outperform the Principal
+ Component Regression approach.
+\end_layout
+
+\begin_layout Standard
+\noindent
+Notice that number of components can be considered as the tuning parameter
+ for this method.
+ We first fit the method using function plsr in pls package with 180 components.
+ As shown below(TODO- add plot), the percentage of variance of the voxel
+ explained by the components reaches 80% at around 106 components and reaches
+ 90% at around 131 features.
+ Thus we use 106 as our optimal number of components.
+ For each voxel, we transform the indepdent variables into a smaller set
+ by multiplying by the coefficients of the principal components.
+\end_layout
+
+\begin_layout Subsection*
+Regularized Random Forest (RRF)
+\end_layout
+
+\begin_layout Standard
+RRF uses random forest technique to select a subset of the best features.
+ A regularization term of L1 loss is added to control the subset size.
+ We choose 500 trees and set the coefficient of the regularization to be
+ 0.8, which results in 37 selected features.
+\end_layout
+
+\begin_layout Section*
+Methods
+\end_layout
+
+\begin_layout Standard
+Mitchell et al.
+ used SVM and Naive Bayesian techniques to predict the cognitive states
+ from the brain images, achieving a 20-30% accuracy across multiple subjects.
+ By repeating their Naive Bayesian approach with the features they selected,
+ we observe the following confusion matrix when we train on subjects 1-4
+ and test on subject 5:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted 3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Condition 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Condition 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Condition 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Notice that most observations with true condition 2 is predicted as condition
+ 3, where the classifier seems to be able to distinguish between condition
+ 1 and condition 2&3.
+ Repeating this process for a train set with other four subjects' observations,
+ we observe very similar confusion matrix where the classifier fail to distingui
+sh condition 2 from condition 3.
+ 
+\end_layout
+
+\begin_layout Standard
+Look back at the definition of conditions, i.e.
+ Condition 1 indicates the segment is a rest, or fixation interval.
+ Condition 2 indicates the interval is a sentence/picture trial in which
+ the sentence is not negated.
+ Condition 3 indicates the interval is a sentence/picture trial in which
+ the sentence is negated, we realize that these three conditions are not
+ symmetric, leading us to believe that one single classifier may not be
+ sufficient to successfully separate these three conditions at the same
+ time.
+ Hence we implement a two-stage approach: at the first stage, we train a
+ classifier to determine if the subject is at rest or busy (combining observatio
+ns with labels 2 and 3 into a new label 0); at the second stage, we disregard
+ the observations with label 1 and train a classifier to separate observations
+ of condition 2 and condition 3.
+\end_layout
+
+\begin_layout Subsection*
+Stage1
+\end_layout
+
+\begin_layout Subsection*
+Stage2
+\end_layout
+
+\begin_layout Section*
+Results
+\end_layout
+
+\begin_layout Standard
+In the test, we set the data from one of the 5 subjects as test data and
+ use the other four subjects' data as training data.
+ Using the method described in 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+need to organize the materials
+\end_layout
+
+\end_inset
+
+, the result is shown in the following table:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="6">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Error Rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predict Subject 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predict Subject 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predict Subject 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predict Subject 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predict Subject 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PCA
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.04%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PLSR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28.57%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RRF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.29%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8%
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Passive vs.
+ Active Learning Classification
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Description of processing of data, instead of using 7ROI, we use all the
+ ROI data in that period.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the 50 trials, subjects first look at a picture and then a sentence or
+ vice versa.
+ Each frame appears for 4 seconds, producing 8 brain images.
+ Originally, it is natural to ask if brain activity is significantly different
+ while a subject is viewing a picture or a sentence.
+ However, Mitchell et al., when trying to use classification methods to predict
+ if some given observation is obtained while a subject is viewing a picture
+ or a sentence, the error rate varies on whether a picture is the first
+ stimulate or not.
+ In the trials when a picture is presented first and then a sentence, they
+ trained their classifier which provides a error rate of 25%.
+ However, in the trials when a sentence is presented first and then a picture,
+ the new classifier has a much greater error rate of 40%.
+ Mitchell et al.
+ do not provide any further explanation on what factors lead to this difference.
+ 
+\end_layout
+
+\begin_layout Standard
+Intuitively, if there is a real observable difference in brain activity
+ while a human is viewing a picture or a sentence, then we would expect
+ test errors to be similar no matter a picture is shown first or a sentence
+ is.
+ Thus we propose that this difference may due to some other latent factors.
+ Notice that in the 50 trials, the first 25 shows a picture first and the
+ last 25 shows a sentence first so we should observe some trend that reverses
+ at trial 25.
+ Figure # shows the distribution of 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/1to80.jpg
+	scale 25
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/401to480.jpg
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Playing around with the data and the labels, we found that what the classifier
+ is really classifying is whether the subject is looking at the first stimulate
+ or the second stimulate.
+ It is reasonable to classify on that criteria because when a subject receives
+ the first stimulate, he is passively learning and remembering the stimulate.
+ However, when the second stimulate is displayed, the subject is actively
+ thinking if the sentence and the picture matches.
+ These two kinds of brain learning and processing can justify why we observe
+ a difference in error rate.
+ Thus instead of classfying sentence vs.
+ picture, we focus on the classification of mental states, i.e.
+ passive learning vs.
+ active learning.
+\end_layout
+
+\begin_layout Section*
+Prediction within a subject
+\end_layout
+
+\begin_layout Standard
+In this stage, we train classifiers for each subject and predict for the
+ same person.
+ Within subject classification is meaningful because humans tend to differ
+ from each other but the brain activity of a single individual is consistent.
+ Furthermore, within subject classification provides a more flexible feature
+ selection where are voxels are matched automatically from observation to
+ observation.
+\end_layout
+
+\begin_layout Section*
+Data Pre-processing
+\end_layout
+
+\begin_layout Standard
+For best classification performance, we limit the RoI in our feature set
+ to a subset of seven.
+ These seven RoIs has been recognized as the most predictive in sentence
+ vs.
+ picture classification (cite).
+\end_layout
+
+\begin_layout Standard
+In addition to the feature selection methods, some further data pre-processing
+ is carried out.
+ First of all, when a subject saw a picture for 4 seconds, a consecutive
+ collection of 8 brain images was generated.
+ Instead of treating them as 8 individual observations, we concategate these
+ observations together into a single observation to avoid the problem of
+ high autocorrelation between observations (this results to a feature set
+ of 56).
+ Then we normalize each feature tand brain our classifiers.
+\end_layout
+
+\begin_layout Standard
+Beside the above process, we also take an alternative approach to deal with
+ the autocorrelation between observations by fitting an ARIMA(1,0,0) to
+ the data and only keep the residuals.
+ Figure # shows the autocorrelation of the data points before and after
+ this process.
+ It is clear that taking only the residuals reduces the autocorrelation
+ between consecutive observations and lead to a rather independent set of
+ data points.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/ar1.png
+	scale 25
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/ar2.png
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Methods
+\end_layout
+
+\begin_layout Standard
+Mitchell et al.
+ (cite) used Naive Bayesian Classifier and SVM in their original paper about
+ this dataset.
+ Here we would want to use Random Forest and Neural Networks
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+A new name not random forest
+\end_layout
+
+\end_inset
+
+ to approach this problem.
+ We describe the methods here and compare the results to the Naive Bayesian
+ Classifier in the following section.
+\end_layout
+
+\begin_layout Subsection*
+Random Forest
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+a new name
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In our approach, neural network is adopted but for each prediction, the
+ neural network is trained several times in a way which is similar to the
+ random forest method when we train a decision tree.
+ In the approach, we get a 
+\begin_inset Quotes eld
+\end_inset
+
+forest
+\begin_inset Quotes erd
+\end_inset
+
+ of neural networks.
+ When training each of the neural network, training data is a random subset
+ of the original training set and 90% of the features are also randomly
+ selected from all the features.
+ The remaining data in the data set are used as validation data.
+ The accuracy rate of the validation data is used as weight.
+ The prediction is obtained from the weighted average of all the neural
+ networks.
+ Our method applies the general technique of bootstrap aggregating which
+ is designed to improve the stability and accuracy as well as reducing the
+ variance and avoiding overfitting.
+ Moreover, the method also applied importance sampling in some sense.
+ The neural networks performs better on the validation data which is randomly
+ chosen from the training data are assumed to perform better on the test
+ data.
+ So more weight are assigned to neural networks with better validation accuracy.
+ Since the feature numbers are small, the training time for our approach
+ is not very long but the performance is better.
+\end_layout
+
+\begin_layout Section*
+Across Multiple Subjects
+\end_layout
+
+\begin_layout Standard
+Being able to train and predict within a single person is encouraging, we
+ further wish to observe if there's any common brain activity among subjects
+ which distinguishes pictures and sentences.
+ If such a commonality exists, it is a strong indication that brain activity
+ classification can be generalized.
+ In order to do that, we take five subjects' data to train a common classifier
+ and predict for the other subject.
+ As mentioned above, the feature set is limited to RoI averages as oppsed
+ to the various possible feature selection methods in the single subject
+ classification case.
+\end_layout
+
+\begin_layout Section*
+Results
+\end_layout
+
+\begin_layout Standard
+Using the method mentioned in previous, we conduct test on the given data.
+ In our test, 150 data points are randomly selected as test data.
+ The remaining data are training data.
+ There are two labels, the first label represents that the subject are seeing
+ the first stimulate at that period of time i.e passive learning.
+ The second label represents the results are seeing the second stimulate
+ and are actively comparing the second stimulate with the previous one through
+ active thinking.
+ The error rate of our prediction in this case is 15.3% which is significantly
+ greater than 50% (randomly guessing).
+ When we tried to use 4 people's data to predict one people's data, the
+ error rate is also about 20%.
+ 
+\end_layout
+
+\begin_layout Part*
+Conclusion
+\end_layout
+
+\end_body
+\end_document
